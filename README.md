@@ -103,10 +103,11 @@ python main.py
 ```
 
 ## Future Improvements
-
+```bash
 Possible extensions:
 
 -Comparison of different encoding strategies
 -Testing on larger datasets
 -Experiments with different ansatz architectures
 -Evaluation on real quantum hardware
+```
