@@ -1,0 +1,47 @@
+import pennylane as qml
+from pennylane import numpy as np
+from vqc import vqc_circuit
+from config import LEARNING_RATE, EPOCHS, BATCH_SIZE
+
+def mean_squared_error_loss(weights, X_batch, y_batch):
+    """Computes MSE loss over a batch of inputs."""
+    predictions = np.array([vqc_circuit(weights, x) for x in X_batch])
+    return np.mean((predictions - y_batch) ** 2)
+
+def calculate_accuracy(weights, X, y):
+    """Computes binary classification accuracy."""
+    preds = np.array([vqc_circuit(weights, x) for x in X])
+    binary_preds = np.sign(preds)
+    return np.mean(binary_preds == y)
+
+def train(weights, X, y):
+    """Optimization execution loop with Adam."""
+    opt = qml.AdamOptimizer(stepsize=LEARNING_RATE)
+    loss_history = []
+    
+    num_samples = len(X)
+    
+    for epoch in range(EPOCHS):
+        # Shuffle batch indices
+        indices = np.random.permutation(num_samples)
+        X_shuffled, y_shuffled = X[indices], y[indices]
+        
+        # Mini-batch gradient updates
+        for i in range(0, num_samples, BATCH_SIZE):
+            X_batch = X_shuffled[i:i + BATCH_SIZE]
+            y_batch = y_shuffled[i:i + BATCH_SIZE]
+            
+            weights, loss = opt.step_and_cost(
+                lambda w: mean_squared_error_loss(w, X_batch, y_batch), 
+                weights
+            )
+        
+        # Record loss over full dataset for the epoch
+        epoch_loss = mean_squared_error_loss(weights, X, y)
+        loss_history.append(epoch_loss)
+        
+        if (epoch + 1) % 10 == 0 or epoch == 0:
+            acc = calculate_accuracy(weights, X, y)
+            print(f"Epoch {epoch+1:2d}/{EPOCHS} | Loss: {epoch_loss:.4f} | Accuracy: {acc * 100:.1f}%")
+            
+    return weights, loss_history

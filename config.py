@@ -1,0 +1,12 @@
+NUM_QUBITS = 4
+NUM_LAYERS = 3
+FEATURE_DIM = 4
+
+LEARNING_RATE = 0.05
+EPOCHS = 50
+BATCH_SIZE = 8
+SEED = 42
+
+ENCODING_METHOD = "rx_rz"
+
+PLOT_PATH = "training_loss.png"
