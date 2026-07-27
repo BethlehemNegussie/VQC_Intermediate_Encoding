@@ -71,6 +71,7 @@ The project supports:
 ---
 
 ## Project Structure
+```bash
 ├── main.py
 ├── vqc.py
 ├── feature_encoding.py
@@ -80,7 +81,7 @@ The project supports:
 ├── visualization.py
 ├── config.py
 └── requirements.txt
-
+```
 ---
 
 ## Installation
@@ -105,7 +106,7 @@ python main.py
 
 Possible extensions:
 
-Comparison of different encoding strategies
-Testing on larger datasets
-Experiments with different ansatz architectures
-Evaluation on real quantum hardware
+-Comparison of different encoding strategies
+-Testing on larger datasets
+-Experiments with different ansatz architectures
+-Evaluation on real quantum hardware
