@@ -9,7 +9,8 @@ def load_academic_performance_data(n_samples=200):
     """
     Loads UCI Student Performance dataset.
 
-    Binary classification:
+    Binary classification (kept identical to the original VQC task
+    so the two projects are directly comparable):
         Pass (+1): G3 >= 10
         Fail (-1): G3 < 10
     """
@@ -53,14 +54,8 @@ def load_academic_performance_data(n_samples=200):
 
     X_scaled = scaler.fit_transform(X)
 
-    X_quantum = np.clip(
-        X_scaled,
-        -np.pi,
-        np.pi
-    )
-
     X_train, X_test, y_train, y_test = train_test_split(
-        X_quantum,
+        X_scaled,
         y,
         test_size=0.2,
         random_state=SEED,

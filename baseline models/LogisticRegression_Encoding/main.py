@@ -1,14 +1,14 @@
 from datasets import load_academic_performance_data
-from vqc import init_weights, draw_circuit
+from logistic_model import init_weights, describe_model
 from training import train, calculate_accuracy
 from visualizations import plot_training_loss, plot_decision_boundary
-from config import PLOT_PATH, FEATURE_DIM, NUM_LAYERS
+from config import PLOT_PATH, FEATURE_DIM
 
 
 def main():
 
     print("=" * 60)
-    print(" VQC with Intermediate Encoding (Academic Performance Data) ")
+    print(" Logistic Regression Model (Academic Performance Data) ")
     print("=" * 60)
 
     X_train, X_test, y_train, y_test = load_academic_performance_data(
@@ -21,22 +21,21 @@ def main():
     )
 
     print(
-        f"Features: {FEATURE_DIM} | "
-        f"Layers: {NUM_LAYERS}"
+        f"Features: {FEATURE_DIM}"
     )
 
     weights = init_weights()
 
-    print("\nCircuit Architecture:")
+    print("\nModel:")
 
     print(
-        draw_circuit(
+        describe_model(
             weights,
             X_train[0]
         )
     )
 
-    print("\nStarting Quantum Optimization Pipeline...")
+    print("\nStarting Optimization...")
 
     trained_weights, loss_history = train(
         weights,

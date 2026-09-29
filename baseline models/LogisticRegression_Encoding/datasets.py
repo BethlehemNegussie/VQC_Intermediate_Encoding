@@ -9,9 +9,9 @@ def load_academic_performance_data(n_samples=200):
     """
     Loads UCI Student Performance dataset.
 
-    Binary classification:
-        Pass (+1): G3 >= 10
-        Fail (-1): G3 < 10
+    Binary classification, labeled for logistic regression / cross-entropy:
+        Pass (1): G3 >= 10
+        Fail (0): G3 < 10
     """
 
     np.random.seed(SEED)
@@ -35,7 +35,7 @@ def load_academic_performance_data(n_samples=200):
     y = np.where(
         df["G3"].values >= 10,
         1.0,
-        -1.0
+        0.0
     )
 
     if n_samples < len(X):
@@ -53,14 +53,8 @@ def load_academic_performance_data(n_samples=200):
 
     X_scaled = scaler.fit_transform(X)
 
-    X_quantum = np.clip(
-        X_scaled,
-        -np.pi,
-        np.pi
-    )
-
     X_train, X_test, y_train, y_test = train_test_split(
-        X_quantum,
+        X_scaled,
         y,
         test_size=0.2,
         random_state=SEED,
